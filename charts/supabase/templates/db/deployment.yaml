@@ -130,7 +130,7 @@ spec:
           {{- end }}
           ports:
             - name: postgres
-              containerPort: 5432
+              containerPort: 54322
               protocol: TCP
           volumeMounts:
             - mountPath: /docker-entrypoint-initdb.d
