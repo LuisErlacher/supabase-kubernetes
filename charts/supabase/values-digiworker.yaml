@@ -15,6 +15,9 @@ secret:
     database: postgres
   analytics:
     apiKey: your-super-secret-and-long-logflare-key
+  s3:
+    keyId: TA965aHPwGIRSd3MTQts
+    accessKey: zR05z2lgyg3aNutsspnrwsVEdrGbDLVkn9oDMzgd
 
 db:
   enabled: true
@@ -146,6 +149,10 @@ storage:
     enabled: false
   environment:
     DB_PORT: 54322
+    GLOBAL_S3_BUCKET: supabase-storage
+    AWS_DEFAULT_REGION: us-east-1
+    GLOBAL_S3_FORCE_PATH_STYLE: "true"
+    GLOBAL_S3_ENDPOINT: "http://minio:9000"
   resources:
     limits:
       cpu: 100m
@@ -223,6 +230,9 @@ analytics:
       memory: 128Mi
 
 vector:
+  enabled: false
+
+minio:
   enabled: false
 
 functions:
