@@ -104,7 +104,10 @@ realtime:
     httpGet:
       path: /
       port: 4000
-    initialDelaySeconds: 3
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 5
   environment:
     DB_PORT: 54322
   resources:
@@ -135,7 +138,10 @@ storage:
     httpGet:
       path: /status
       port: 5000
-    initialDelaySeconds: 3
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 5
   persistence:
     enabled: false
   environment:
@@ -202,7 +208,10 @@ analytics:
     httpGet:
       path: /health
       port: 4000
-    initialDelaySeconds: 3
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 5
   environment:
     DB_PORT: 54322
   resources:
