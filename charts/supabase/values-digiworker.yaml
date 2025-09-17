@@ -192,6 +192,7 @@ kong:
     KONG_LOG_LEVEL: info
     KONG_NGINX_WORKER_PROCESSES: "2"
     KONG_MEM_CACHE_SIZE: "64m"
+    KONG_RESTART: "1"
   ingress:
     enabled: true
     className: "nginx"
