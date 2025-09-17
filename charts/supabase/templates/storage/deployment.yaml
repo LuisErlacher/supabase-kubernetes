@@ -60,6 +60,13 @@ spec:
               sleep 2
               done
             - echo "Database is ready"
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
         {{- if .Values.minio.enabled }}
         - env:
             - name: MINIO_ROOT_USER
