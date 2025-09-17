@@ -75,7 +75,7 @@ auth:
     GOTRUE_SMTP_HOST: "smtp.example.com"
     GOTRUE_SMTP_PORT: "587"
     GOTRUE_SMTP_SENDER_NAME: "your-mail@example.com"
-    DB_PORT: 54322
+    DB_PORT: 5432
   resources:
     limits:
       cpu: 100m
@@ -88,7 +88,7 @@ rest:
   image:
     tag: v12.0.1
   environment:
-    DB_PORT: 54322
+    DB_PORT: 5432
   resources:
     limits:
       cpu: 100m
@@ -106,7 +106,7 @@ realtime:
       port: 4000
     initialDelaySeconds: 3
   environment:
-    DB_PORT: 54322
+    DB_PORT: 5432
   resources:
     limits:
       cpu: 100m
@@ -119,7 +119,7 @@ meta:
   image:
     tag: v0.80.0
   environment:
-    DB_PORT: 54322
+    DB_PORT: 5432
   resources:
     limits:
       cpu: 100m
@@ -139,7 +139,7 @@ storage:
   persistence:
     enabled: false
   environment:
-    DB_PORT: 54322
+    DB_PORT: 5432
   resources:
     limits:
       cpu: 100m
@@ -204,7 +204,7 @@ analytics:
       port: 4000
     initialDelaySeconds: 3
   environment:
-    DB_PORT: 54322
+    DB_PORT: 5432
   resources:
     limits:
       cpu: 100m
@@ -220,7 +220,7 @@ functions:
   image:
     tag: v1.41.2
   environment:
-    DB_PORT: 54322
+    DB_PORT: 5432
   resources:
     limits:
       cpu: 100m
