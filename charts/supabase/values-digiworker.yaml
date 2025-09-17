@@ -37,6 +37,7 @@ db:
   environment:
     PGPORT: "54322"
     POSTGRES_PORT: "54322"
+    POSTGRESQL_PORT_NUMBER: "54322"
   resources:
     limits:
       cpu: 200m

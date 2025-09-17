@@ -9,9 +9,9 @@ spec:
   type: {{ .Values.db.service.type }}
   ports:
     - port: {{ .Values.db.service.port }}
-      targetPort: 5432
+      targetPort: 54322
       protocol: TCP
-      name: http
+      name: postgres
   selector:
     {{- include "supabase.db.selectorLabels" . | nindent 4 }}
 {{- end }}
