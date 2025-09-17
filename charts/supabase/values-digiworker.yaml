@@ -8,7 +8,7 @@ secret:
     password: example123456
   dashboard:
     username: admin
-    password: admin
+    password: admin123
   db:
     username: postgres
     password: example123456
