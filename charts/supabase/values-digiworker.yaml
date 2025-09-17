@@ -189,6 +189,8 @@ kong:
   environment:
     KONG_DECLARATIVE_CONFIG: /usr/local/kong/kong.yml
     KONG_LOG_LEVEL: info
+    KONG_NGINX_WORKER_PROCESSES: "2"
+    KONG_MEM_CACHE_SIZE: "64m"
   ingress:
     enabled: true
     className: "nginx"
@@ -202,11 +204,11 @@ kong:
             pathType: Prefix
   resources:
     limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
       cpu: 200m
       memory: 512Mi
-    requests:
-      cpu: 100m
-      memory: 256Mi
 
 analytics:
   image:
