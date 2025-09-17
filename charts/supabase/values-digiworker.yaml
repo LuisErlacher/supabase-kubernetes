@@ -32,8 +32,8 @@ db:
   service:
     port: 54322
   environment:
-    PGPORT: "54322"
-    POSTGRES_PORT: "54322"
+    PGPORT: "5432"
+    POSTGRES_PORT: "5432"
   resources:
     limits:
       cpu: 200m

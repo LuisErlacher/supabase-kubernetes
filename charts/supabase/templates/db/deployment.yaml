@@ -129,8 +129,8 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
-            - name: http
-              containerPort: 9999
+            - name: postgres
+              containerPort: 5432
               protocol: TCP
           volumeMounts:
             - mountPath: /docker-entrypoint-initdb.d
