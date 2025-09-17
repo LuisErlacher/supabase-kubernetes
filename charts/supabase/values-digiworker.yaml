@@ -34,6 +34,13 @@ db:
   environment:
     PGPORT: "54322"
     POSTGRES_PORT: "54322"
+  resources:
+    limits:
+      cpu: 200m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
 
 studio:
   image:
