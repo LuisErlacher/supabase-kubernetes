@@ -213,6 +213,20 @@ studio:
     NEXT_PUBLIC_ENABLE_LOGS: "true"
     # Set value to bigquery to use Big Query backend for analytics
     NEXT_ANALYTICS_BACKEND_PROVIDER: postgres  # postgres, bigquery
+    # Enable additional Studio features for self-hosted deployments
+    NEXT_PUBLIC_SITE_URL: http://example.com
+    NEXT_PUBLIC_GOTRUE_URL: http://example.com/auth/v1
+    DISABLE_SIGNUP: "false"
+    ENABLE_EMAIL_SIGNUP: "true"
+    ENABLE_PHONE_SIGNUP: "true"
+    ENABLE_EMAIL_AUTOCONFIRM: "false"
+    ENABLE_ANONYMOUS_USERS: "false"
+    ENABLE_PHONE_AUTOCONFIRM: "true"
+    # Enable Logflare for self-hosted mode
+    LOGFLARE_SUPABASE_MODE: "true"
+    LOGFLARE_SINGLE_TENANT: "true"
+    # Optional: Enable AI features (requires OpenAI API key)
+    # OPENAI_API_KEY: your-openai-api-key
   # volumeMounts:
   #   - name: volume_name
   #     mountPath: /path/to/my/secret
@@ -307,6 +321,30 @@ auth:
     GOTRUE_SMTP_SENDER_NAME: "SMTP_SENDER_NAME"
     GOTRUE_EXTERNAL_PHONE_ENABLED: "false"
     GOTRUE_SMS_AUTOCONFIRM: "false"
+    # OAuth Providers Configuration - Uncomment and configure as needed
+    # Google OAuth
+    # GOTRUE_EXTERNAL_GOOGLE_ENABLED: "true"
+    # GOTRUE_EXTERNAL_GOOGLE_CLIENT_ID: "your-google-client-id"
+    # GOTRUE_EXTERNAL_GOOGLE_SECRET: "your-google-secret"
+    # GOTRUE_EXTERNAL_GOOGLE_REDIRECT_URI: "http://example.com/auth/v1/callback"
+    # GitHub OAuth
+    # GOTRUE_EXTERNAL_GITHUB_ENABLED: "true"
+    # GOTRUE_EXTERNAL_GITHUB_CLIENT_ID: "your-github-client-id"
+    # GOTRUE_EXTERNAL_GITHUB_SECRET: "your-github-secret"
+    # GOTRUE_EXTERNAL_GITHUB_REDIRECT_URI: "http://example.com/auth/v1/callback"
+    # Facebook OAuth
+    # GOTRUE_EXTERNAL_FACEBOOK_ENABLED: "true"
+    # GOTRUE_EXTERNAL_FACEBOOK_CLIENT_ID: "your-facebook-client-id"
+    # GOTRUE_EXTERNAL_FACEBOOK_SECRET: "your-facebook-secret"
+    # Discord OAuth
+    # GOTRUE_EXTERNAL_DISCORD_ENABLED: "true"
+    # GOTRUE_EXTERNAL_DISCORD_CLIENT_ID: "your-discord-client-id"
+    # GOTRUE_EXTERNAL_DISCORD_SECRET: "your-discord-secret"
+    # Azure/Microsoft OAuth
+    # GOTRUE_EXTERNAL_AZURE_ENABLED: "true"
+    # GOTRUE_EXTERNAL_AZURE_CLIENT_ID: "your-azure-client-id"
+    # GOTRUE_EXTERNAL_AZURE_SECRET: "your-azure-secret"
+    # GOTRUE_EXTERNAL_AZURE_URL: "https://login.microsoftonline.com/your-tenant-id"
     GOTRUE_MAILER_URLPATHS_INVITE: "/auth/v1/verify"
     GOTRUE_MAILER_URLPATHS_CONFIRMATION: "/auth/v1/verify"
     GOTRUE_MAILER_URLPATHS_RECOVERY: "/auth/v1/verify"
