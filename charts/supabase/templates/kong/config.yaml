@@ -29,7 +29,6 @@ data:
     consumers:
     {{- if .Values.secret.dashboard }}
       - username: DASHBOARD
-        id: dashboard-consumer
     {{- end }}
       - username: anon
         keyauth_credentials:
@@ -44,8 +43,7 @@ data:
         group: admin
     {{- if .Values.secret.dashboard }}
     basicauth_credentials:
-      - consumer:
-          id: dashboard-consumer
+      - consumer: DASHBOARD
         username: ${DASHBOARD_USERNAME}
         password: ${DASHBOARD_PASSWORD}
     {{- end }}
