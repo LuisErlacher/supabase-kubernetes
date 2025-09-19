@@ -21,11 +21,17 @@ data:
     \set pguser `echo "$POSTGRES_USER"`
 
     CREATE DATABASE _supabase WITH OWNER :pguser;
+    GRANT ALL PRIVILEGES ON DATABASE _supabase TO supabase_admin;
   99-pooler.sql: |
     \set pguser `echo "$POSTGRES_USER"`
     \c _supabase
     create schema if not exists _supavisor;
     alter schema _supavisor owner to :pguser;
+    GRANT ALL ON SCHEMA _supavisor TO supabase_admin;
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA _supavisor TO supabase_admin;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA _supavisor TO supabase_admin;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA _supavisor GRANT ALL ON TABLES TO supabase_admin;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA _supavisor GRANT ALL ON SEQUENCES TO supabase_admin;
     \c postgres
   99-realtime.sql: |
     \set pguser `echo "$POSTGRES_USER"`
