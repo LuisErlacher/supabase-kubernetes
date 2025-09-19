@@ -19,12 +19,18 @@ data:
     alter schema _analytics owner to :pguser;
   99-supabase-db.sql: |
     \set pguser `echo "$POSTGRES_USER"`
+    \echo 'Starting 99-supabase-db.sql script'
 
     CREATE DATABASE _supabase WITH OWNER :pguser;
+    \echo 'Database _supabase created successfully'
+
     GRANT ALL PRIVILEGES ON DATABASE _supabase TO supabase_admin;
+    \echo 'Permissions granted to supabase_admin'
   99-z-pooler.sql: |
     \set pguser `echo "$POSTGRES_USER"`
+    \echo 'Starting 99-z-pooler.sql script'
     \c _supabase
+    \echo 'Connected to _supabase database'
 
     -- Create supabase_admin user in _supabase database if it doesn't exist
     DO $create_user_supabase_db$
@@ -45,6 +51,7 @@ data:
     ALTER DEFAULT PRIVILEGES IN SCHEMA _supavisor GRANT ALL ON TABLES TO supabase_admin;
     ALTER DEFAULT PRIVILEGES IN SCHEMA _supavisor GRANT ALL ON SEQUENCES TO supabase_admin;
     \c postgres
+    \echo 'Finished 99-z-pooler.sql script'
   99-realtime.sql: |
     \set pguser `echo "$POSTGRES_USER"`
 
