@@ -67,6 +67,8 @@ spec:
             {{- if .Values.db.enabled }}
             - name: POSTGRES_HOSTNAME
               value: {{ include "supabase.db.fullname" . }}
+            - name: POSTGRES_PORT
+              value: "{{ .Values.db.service.port }}"
             - name: DATABASE_URL
               value: "ecto://supabase_admin:$(POSTGRES_PASSWORD)@$(POSTGRES_HOSTNAME):$(POSTGRES_PORT)/_supabase"
             {{- end }}

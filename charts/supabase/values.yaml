@@ -118,11 +118,11 @@ db:
     # runAsUser: 1000
   service:
     type: ClusterIP
-    port: 5432
+    port: 54322
   environment:
     POSTGRES_HOST: /var/run/postgresql
-    PGPORT: "5432"
-    POSTGRES_PORT: "5432"
+    PGPORT: "54322"
+    POSTGRES_PORT: "54322"
     JWT_EXP: 3600
     # POSTGRES_HOST_AUTH_METHOD: md5
     # Enable SSL for postgres by specifying paths for mounted certificate key pair
@@ -1278,7 +1278,7 @@ supavisor:
     POOLER_MAX_CLIENT_CONN: "100"
     PORT: "4000"
     POSTGRES_HOSTNAME: ""  # Will be set dynamically to db service
-    POSTGRES_PORT: "5432"
+    POSTGRES_PORT: "54322"
     POSTGRES_DB: postgres
     CLUSTER_POSTGRES: "true"
     REGION: local
