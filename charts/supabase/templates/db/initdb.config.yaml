@@ -22,7 +22,7 @@ data:
 
     CREATE DATABASE _supabase WITH OWNER :pguser;
     GRANT ALL PRIVILEGES ON DATABASE _supabase TO supabase_admin;
-  99-pooler.sql: |
+  99-z-pooler.sql: |
     \set pguser `echo "$POSTGRES_USER"`
     \c _supabase
 
