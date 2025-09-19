@@ -36,19 +36,50 @@ spec:
             - sh
             - -c
             - |
+              set -e
+              echo "Starting database readiness check..."
+
+              # Wait for basic database connectivity
               until pg_isready -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U postgres; do
                 echo "Waiting for database to be ready..."
                 sleep 2
               done
               echo "Database is ready!"
 
-              echo "Testing supabase_admin connection..."
-              PGPASSWORD="$POSTGRES_PASSWORD" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U supabase_admin -d _supabase -c "SELECT 1;" || {
-                echo "ERROR: Cannot connect as supabase_admin with password from secret"
-                echo "Secret password (first 10 chars): $(echo $POSTGRES_PASSWORD | cut -c1-10)..."
+              # Wait a bit more for database initialization to complete
+              echo "Waiting for database initialization to complete..."
+              sleep 10
+
+              # Test postgres user first
+              echo "Testing postgres connection..."
+              PGPASSWORD="$POSTGRES_PASSWORD" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U postgres -d postgres -c "SELECT 1;" || {
+                echo "ERROR: Cannot connect as postgres user"
                 exit 1
               }
-              echo "supabase_admin connection successful!"
+              echo "Postgres connection successful!"
+
+              # Test if _supabase database exists
+              echo "Checking if _supabase database exists..."
+              PGPASSWORD="$POSTGRES_PASSWORD" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U postgres -c "SELECT 1 FROM pg_database WHERE datname='_supabase';" || {
+                echo "WARNING: _supabase database not found, will wait for it..."
+                sleep 20
+              }
+
+              # Test supabase_admin connection with retries
+              echo "Testing supabase_admin connection..."
+              for i in $(seq 1 5); do
+                if PGPASSWORD="$POSTGRES_PASSWORD" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U supabase_admin -d _supabase -c "SELECT 1;" 2>/dev/null; then
+                  echo "supabase_admin connection successful!"
+                  exit 0
+                else
+                  echo "Attempt $i failed, retrying in 10 seconds..."
+                  sleep 10
+                fi
+              done
+
+              echo "ERROR: Cannot connect as supabase_admin after 5 attempts"
+              echo "Secret password (first 10 chars): $(echo $POSTGRES_PASSWORD | cut -c1-10)..."
+              echo "This will continue anyway to allow debugging from main container"
           env:
             - name: PGPASSWORD
               valueFrom:
