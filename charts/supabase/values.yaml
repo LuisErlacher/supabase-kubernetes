@@ -259,6 +259,11 @@ studio:
     NEXT_PUBLIC_ENABLE_QUERY_PERF: "true"
     NEXT_PUBLIC_ENABLE_REALTIME_INSPECTOR: "true"
     NEXT_PUBLIC_ENABLE_NETWORK_RESTRICTIONS: "true"
+    # Studio configuration from compose example
+    DEFAULT_ORGANIZATION_NAME: "Default Organization"
+    DEFAULT_PROJECT_NAME: "Default Project"
+    POSTGRES_PASSWORD: ""  # Will be set from secret
+    SUPABASE_PUBLIC_API: ""  # Will be set dynamically
     # Optional: Enable AI features (requires OpenAI API key)
     # OPENAI_API_KEY: your-openai-api-key
     # NEXT_PUBLIC_ENABLE_SQL_EDITOR_AI: "true"
@@ -962,11 +967,15 @@ analytics:
     # Override the database hostname if using external database
     # DB_HOST: DATABASE.NAMESPACE.svc.cluster.local
     DB_USERNAME: supabase_admin
+    DB_DATABASE: _supabase
     DB_PORT: 5432
     DB_DRIVER: postgresql
     DB_SCHEMA: _analytics
     LOGFLARE_SINGLE_TENANT: "true"
     LOGFLARE_SUPABASE_MODE: "true"
+    LOGFLARE_SINGLE_TENANT_MODE: "true"
+    LOGFLARE_MIN_CLUSTER_SIZE: "1"
+    POSTGRES_BACKEND_SCHEMA: _analytics
     FEATURE_FLAG_OVERRIDE: multibackend=true
   # Enable Big Query backend for analytics
   bigQuery:
@@ -1223,3 +1232,64 @@ minio:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+
+# Supavisor (Connection Pooler)
+supavisor:
+  # Enable supavisor provisioning
+  enabled: true
+  image:
+    repository: supabase/supavisor
+    pullPolicy: IfNotPresent
+    tag: "2.5.1"
+  imagePullSecrets: []
+  replicaCount: 1
+  nameOverride: ""
+  fullnameOverride: ""
+  livenessProbe: {}
+  readinessProbe: {}
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+  podAnnotations: {}
+  podSecurityContext: {}
+    # fsGroup: 2000
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+  service:
+    type: ClusterIP
+    port: 4000
+  environment:
+    # Override the database hostname if using external database
+    # DB_HOST: DATABASE.NAMESPACE.svc.cluster.local
+    POOLER_TENANT_ID: dev_tenant
+    POOLER_POOL_MODE: transaction
+    POOLER_DEFAULT_POOL_SIZE: "20"
+    POOLER_MAX_CLIENT_CONN: "100"
+    PORT: "4000"
+    POSTGRES_HOSTNAME: ""  # Will be set dynamically to db service
+    POSTGRES_PORT: "5432"
+    POSTGRES_DB: postgres
+    CLUSTER_POSTGRES: "true"
+    REGION: local
+    ERL_AFLAGS: "-proto_dist inet_tcp"
+  resources: {}
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+

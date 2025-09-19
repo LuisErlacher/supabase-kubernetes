@@ -83,6 +83,10 @@ spec:
                   name: {{ include "supabase.secret.analytics" . }}
                   key: apiKey
                   {{- end }}
+            {{- if .Values.db.enabled }}
+            - name: POSTGRES_BACKEND_URL
+              value: "postgresql://supabase_admin:$(DB_PASSWORD)@{{ include "supabase.db.fullname" . }}:{{ .Values.db.service.port }}/_supabase"
+            {{- end }}
             {{- if .Values.analytics.bigQuery.enabled }}
             - name: GOOGLE_PROJECT_ID
               value: {{ .Values.analytics.bigQuery.projectId | quote }}

@@ -186,3 +186,12 @@ vector:
 functions:
   image:
     tag: v1.41.2
+
+supavisor:
+  image:
+    tag: 2.5.1
+  livenessProbe:
+    httpGet:
+      path: /api/health
+      port: 4000
+    initialDelaySeconds: 3
