@@ -251,3 +251,25 @@ functions:
     requests:
       cpu: 50m
       memory: 128Mi
+
+# Enable Supavisor (Connection Pooler)
+supavisor:
+  enabled: true
+  image:
+    tag: 2.5.1
+  environment:
+    POSTGRES_PORT: "54322"
+    POOLER_DEFAULT_POOL_SIZE: "20"
+    POOLER_MAX_CLIENT_CONN: "100"
+  livenessProbe:
+    httpGet:
+      path: /api/health
+      port: 4000
+    initialDelaySeconds: 10
+  resources:
+    limits:
+      cpu: 100m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
