@@ -39,6 +39,8 @@ spec:
               cp -r /docker-entrypoint-initdb.d/* /initdb.d/
               cp /custom-init-scripts/98-webhooks.sql /initdb.d/init-scripts/
               cp /custom-init-scripts/99-roles.sql /initdb.d/init-scripts/
+              cp /custom-init-scripts/99-supabase-db.sql /initdb.d/init-scripts/
+              cp /custom-init-scripts/99-z-pooler.sql /initdb.d/init-scripts/
               cp /custom-init-scripts/99-logs.sql /initdb.d/migrations/
               cp /custom-init-scripts/99-realtime.sql /initdb.d/migrations/
 
