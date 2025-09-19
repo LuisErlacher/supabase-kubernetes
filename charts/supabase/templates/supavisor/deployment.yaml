@@ -41,6 +41,26 @@ spec:
                 sleep 2
               done
               echo "Database is ready!"
+
+              echo "=== DEBUG: Checking database state ==="
+
+              # Check if supabase_admin user exists
+              echo "Checking if supabase_admin user exists..."
+              PGPASSWORD="example123456" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U postgres -d postgres -c "SELECT rolname, rolsuper FROM pg_roles WHERE rolname='supabase_admin';" || echo "Failed to query users"
+
+              # Check if _supabase database exists
+              echo "Checking if _supabase database exists..."
+              PGPASSWORD="example123456" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U postgres -d postgres -c "SELECT datname FROM pg_database WHERE datname='_supabase';" || echo "Failed to query databases"
+
+              # Try to connect as supabase_admin to postgres database first
+              echo "Testing supabase_admin connection to postgres database..."
+              PGPASSWORD="example123456" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U supabase_admin -d postgres -c "SELECT 1;" && echo "SUCCESS: supabase_admin can connect to postgres DB" || echo "FAILED: supabase_admin cannot connect to postgres DB"
+
+              # Try to connect as supabase_admin to _supabase database
+              echo "Testing supabase_admin connection to _supabase database..."
+              PGPASSWORD="example123456" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U supabase_admin -d _supabase -c "SELECT 1;" && echo "SUCCESS: supabase_admin can connect to _supabase DB" || echo "FAILED: supabase_admin cannot connect to _supabase DB"
+
+              echo "=== END DEBUG ==="
           env:
             - name: PGPASSWORD
               valueFrom:
