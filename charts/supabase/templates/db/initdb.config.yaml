@@ -33,9 +33,9 @@ data:
     \c _supabase
     \echo 'Connected to _supabase database'
 
-    -- Create supabase_admin user in _supabase database if it doesn't exist
+    -- Update supabase_admin user password (user already exists from previous script)
     \set ON_ERROR_STOP off
-    CREATE USER supabase_admin WITH PASSWORD :'pgpass' SUPERUSER CREATEDB CREATEROLE;
+    ALTER USER supabase_admin WITH PASSWORD :'pgpass';
     \set ON_ERROR_STOP on
 
     create schema if not exists _supavisor;
