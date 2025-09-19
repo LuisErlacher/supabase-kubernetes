@@ -37,11 +37,7 @@ data:
     \set pgpass `echo "$POSTGRES_PASSWORD"`
 
     -- Create supabase_admin user if it doesn't exist
-    SELECT CASE
-      WHEN NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'supabase_admin') THEN
-        (SELECT 'CREATE USER supabase_admin WITH PASSWORD ''' || :'pgpass' || ''' SUPERUSER CREATEDB CREATEROLE;')
-      ELSE 'supabase_admin already exists'
-    END AS create_user \gexec
+    CREATE USER IF NOT EXISTS supabase_admin WITH PASSWORD :'pgpass' SUPERUSER CREATEDB CREATEROLE;
 
     ALTER USER authenticator WITH PASSWORD :'pgpass';
     ALTER USER pgbouncer WITH PASSWORD :'pgpass';
