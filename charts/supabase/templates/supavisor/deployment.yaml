@@ -80,15 +80,7 @@ spec:
               value: "ecto://supabase_admin:$(POSTGRES_PASSWORD)@$(POSTGRES_HOSTNAME):$(POSTGRES_PORT)/_supabase"
             {{- end }}
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  {{- if .Values.secret.db.secretRef }}
-                  name: {{ .Values.secret.db.secretRef }}
-                  key: {{ .Values.secret.db.secretRefKey.password | default "password" }}
-                  {{- else }}
-                  name: {{ include "supabase.secret.db" . }}
-                  key: password
-                  {{- end }}
+              value: "example123456"
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
