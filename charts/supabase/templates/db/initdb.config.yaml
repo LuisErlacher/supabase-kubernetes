@@ -28,18 +28,21 @@ data:
     \echo 'Permissions granted to supabase_admin'
   99-z-pooler.sql: |
     \set pguser `echo "$POSTGRES_USER"`
+    \set pgpass `echo "$POSTGRES_PASSWORD"`
     \echo 'Starting 99-z-pooler.sql script'
     \c _supabase
     \echo 'Connected to _supabase database'
 
     -- Create supabase_admin user in _supabase database if it doesn't exist
     DO $create_user_supabase_db$
+    DECLARE
+        user_password text := :'pgpass';
     BEGIN
-        CREATE USER supabase_admin WITH PASSWORD '${POSTGRES_PASSWORD}' SUPERUSER CREATEDB CREATEROLE;
+        EXECUTE format('CREATE USER supabase_admin WITH PASSWORD %L SUPERUSER CREATEDB CREATEROLE', user_password);
         RAISE NOTICE 'User supabase_admin created in _supabase database';
     EXCEPTION
         WHEN duplicate_object THEN
-            ALTER USER supabase_admin WITH PASSWORD '${POSTGRES_PASSWORD}';
+            EXECUTE format('ALTER USER supabase_admin WITH PASSWORD %L', user_password);
             RAISE NOTICE 'User supabase_admin already exists in _supabase database, password updated';
     END$create_user_supabase_db$;
 
@@ -63,12 +66,14 @@ data:
 
     -- Create supabase_admin user if it doesn't exist, or update password if it does
     DO $create_user$
+    DECLARE
+        user_password text := :'pgpass';
     BEGIN
-        CREATE USER supabase_admin WITH PASSWORD '${POSTGRES_PASSWORD}' SUPERUSER CREATEDB CREATEROLE;
+        EXECUTE format('CREATE USER supabase_admin WITH PASSWORD %L SUPERUSER CREATEDB CREATEROLE', user_password);
         RAISE NOTICE 'User supabase_admin created successfully';
     EXCEPTION
         WHEN duplicate_object THEN
-            ALTER USER supabase_admin WITH PASSWORD '${POSTGRES_PASSWORD}';
+            EXECUTE format('ALTER USER supabase_admin WITH PASSWORD %L', user_password);
             RAISE NOTICE 'User supabase_admin already exists, password updated';
     END$create_user$;
 
