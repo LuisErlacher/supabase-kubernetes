@@ -25,6 +25,18 @@ data:
   99-pooler.sql: |
     \set pguser `echo "$POSTGRES_USER"`
     \c _supabase
+
+    -- Create supabase_admin user in _supabase database if it doesn't exist
+    DO $create_user_supabase_db$
+    BEGIN
+        CREATE USER supabase_admin WITH PASSWORD '${POSTGRES_PASSWORD}' SUPERUSER CREATEDB CREATEROLE;
+        RAISE NOTICE 'User supabase_admin created in _supabase database';
+    EXCEPTION
+        WHEN duplicate_object THEN
+            ALTER USER supabase_admin WITH PASSWORD '${POSTGRES_PASSWORD}';
+            RAISE NOTICE 'User supabase_admin already exists in _supabase database, password updated';
+    END$create_user_supabase_db$;
+
     create schema if not exists _supavisor;
     alter schema _supavisor owner to :pguser;
     GRANT ALL ON SCHEMA _supavisor TO supabase_admin;
