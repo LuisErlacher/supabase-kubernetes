@@ -28,6 +28,31 @@ spec:
       serviceAccountName: {{ include "supabase.supavisor.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.supavisor.podSecurityContext | nindent 8 }}
+      {{- if .Values.db.enabled }}
+      initContainers:
+        - name: wait-for-db
+          image: postgres:15-alpine
+          command:
+            - sh
+            - -c
+            - |
+              until pg_isready -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U postgres; do
+                echo "Waiting for database to be ready..."
+                sleep 2
+              done
+              echo "Database is ready!"
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.secret.db.secretRef }}
+                  name: {{ .Values.secret.db.secretRef }}
+                  key: {{ .Values.secret.db.secretRefKey.password | default "password" }}
+                  {{- else }}
+                  name: {{ include "supabase.secret.db" . }}
+                  key: password
+                  {{- end }}
+      {{- end }}
       containers:
         - name: {{ include "supabase.supavisor.name" $ }}
           securityContext:
