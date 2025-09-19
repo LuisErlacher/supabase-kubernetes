@@ -36,10 +36,16 @@ data:
     -- NOTE: change to your own passwords for production environments
     \set pgpass `echo "$POSTGRES_PASSWORD"`
 
-    -- Create supabase_admin user (ignore error if already exists)
-    \set ON_ERROR_STOP off
-    CREATE ROLE supabase_admin WITH LOGIN PASSWORD :'pgpass' SUPERUSER CREATEDB CREATEROLE;
-    \set ON_ERROR_STOP on
+    -- Create supabase_admin user if it doesn't exist using exception handling
+    DO $create_user$
+    DECLARE
+        user_password text := :'pgpass';
+    BEGIN
+        EXECUTE format('CREATE USER supabase_admin WITH PASSWORD %L SUPERUSER CREATEDB CREATEROLE', user_password);
+    EXCEPTION
+        WHEN duplicate_object THEN
+            RAISE NOTICE 'User supabase_admin already exists';
+    END$create_user$;
 
     ALTER USER authenticator WITH PASSWORD :'pgpass';
     ALTER USER pgbouncer WITH PASSWORD :'pgpass';
