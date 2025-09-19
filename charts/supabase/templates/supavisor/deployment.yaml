@@ -41,6 +41,14 @@ spec:
                 sleep 2
               done
               echo "Database is ready!"
+
+              echo "Testing supabase_admin connection..."
+              PGPASSWORD="$POSTGRES_PASSWORD" psql -h {{ include "supabase.db.fullname" . }} -p {{ .Values.db.service.port }} -U supabase_admin -d _supabase -c "SELECT 1;" || {
+                echo "ERROR: Cannot connect as supabase_admin with password from secret"
+                echo "Secret password (first 10 chars): $(echo $POSTGRES_PASSWORD | cut -c1-10)..."
+                exit 1
+              }
+              echo "supabase_admin connection successful!"
           env:
             - name: PGPASSWORD
               valueFrom:
