@@ -225,8 +225,43 @@ studio:
     # Enable Logflare for self-hosted mode
     LOGFLARE_SUPABASE_MODE: "true"
     LOGFLARE_SINGLE_TENANT: "true"
+    # Enable connection pooling and database features
+    NEXT_PUBLIC_ENABLE_CONNECTION_POOLER: "true"
+    NEXT_PUBLIC_ENABLE_POOLER_UI: "true"
+    NEXT_PUBLIC_DB_CONNECTION_POOLING: "true"
+    NEXT_PUBLIC_ENABLE_DATABASE_ANALYZER: "true"
+    NEXT_PUBLIC_ENABLE_DB_INSPECT: "true"
+    NEXT_PUBLIC_ENABLE_DASHBOARD_DB_INSPECT: "true"
+    # Enable integrations and webhooks
+    NEXT_PUBLIC_ENABLE_INTEGRATIONS: "true"
+    NEXT_PUBLIC_ENABLE_WEBHOOKS: "true"
+    NEXT_PUBLIC_ENABLE_DATABASE_WEBHOOKS: "true"
+    NEXT_PUBLIC_ENABLE_HTTP_LOGS: "true"
+    # Enable self-hosted features
+    NEXT_PUBLIC_ENABLE_SELF_HOSTED_FEATURES: "true"
+    NEXT_PUBLIC_IS_PLATFORM: "false"
+    NEXT_PUBLIC_ENVIRONMENT: "self-hosted"
+    # Enable advanced database features
+    NEXT_PUBLIC_ENABLE_BRANCHING: "false"
+    NEXT_PUBLIC_ENABLE_DATABASE_BACKUPS: "true"
+    NEXT_PUBLIC_ENABLE_DATABASE_EXTENSIONS: "true"
+    NEXT_PUBLIC_ENABLE_DATABASE_FUNCTIONS: "true"
+    NEXT_PUBLIC_ENABLE_DATABASE_TRIGGERS: "true"
+    NEXT_PUBLIC_ENABLE_DATABASE_PUBLICATIONS: "true"
+    NEXT_PUBLIC_ENABLE_DATABASE_ROLES: "true"
+    NEXT_PUBLIC_ENABLE_DATABASE_POLICIES: "true"
+    # Enable ORM and SQL features
+    NEXT_PUBLIC_ENABLE_SQL_EDITOR_AUTOCOMPLETE: "true"
+    NEXT_PUBLIC_ENABLE_SQL_EDITOR_LINT: "true"
+    NEXT_PUBLIC_ENABLE_TABLE_EDITOR: "true"
+    NEXT_PUBLIC_ENABLE_COLUMN_LEVEL_PRIVILEGES: "true"
+    # Enable monitoring and analytics
+    NEXT_PUBLIC_ENABLE_QUERY_PERF: "true"
+    NEXT_PUBLIC_ENABLE_REALTIME_INSPECTOR: "true"
+    NEXT_PUBLIC_ENABLE_NETWORK_RESTRICTIONS: "true"
     # Optional: Enable AI features (requires OpenAI API key)
     # OPENAI_API_KEY: your-openai-api-key
+    # NEXT_PUBLIC_ENABLE_SQL_EDITOR_AI: "true"
   # volumeMounts:
   #   - name: volume_name
   #     mountPath: /path/to/my/secret
